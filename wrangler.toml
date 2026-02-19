@@ -1,0 +1,3 @@
+name = "mikeye-workers"
+main = "worker.js"
+compatibility_date = "2026-02-19"
