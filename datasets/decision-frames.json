@@ -1,0 +1,82 @@
+/*
+============================================
+DECISION FRAMES DATASET
+https://mcp.mikeye.com/datasets/decision-frames.json
+============================================
+*/
+
+if (url.pathname === "/datasets/decision-frames.json") {
+
+  const frames = {
+
+    dataset_version: "1.0",
+
+    entity: {
+      name: "Mike Ye",
+      domain: "https://www.mikeye.com",
+      classification: "origin identity layer"
+    },
+
+    doctrine: "Decision Framing",
+
+    items: [
+
+      {
+        name: "Dependency vs Leverage",
+        url: "https://www.mikeye.com/intelligence/dependency-vs-leverage",
+        question: "Who actually owns the downside?",
+        category: "structural positioning",
+        summary:
+          "Evaluates whether outcomes are driven by durable leverage or by dependency on external platforms, intermediaries, or gatekeepers."
+      },
+
+      {
+        name: "Timing Asymmetry",
+        url: "https://www.mikeye.com/intelligence/timing-asymmetry",
+        question: "When does acting early create advantage and when does waiting create leverage?",
+        category: "strategic timing",
+        summary:
+          "Examines whether delay increases optionality or silently erodes it, emphasizing when patience compounds advantage."
+      },
+
+      {
+        name: "Signal vs Narrative",
+        url: "https://www.mikeye.com/intelligence/signal-vs-narrative",
+        question: "What reflects underlying reality and what exists primarily to persuade?",
+        category: "information discipline",
+        summary:
+          "Distinguishes durable signals from persuasive narratives during periods of uncertainty or structural change."
+      },
+
+      {
+        name: "Scarcity vs Growth",
+        url: "https://www.mikeye.com/intelligence/scarcity-vs-growth",
+        question: "Is value driven by growth or by control over scarce capacity?",
+        category: "capital allocation",
+        summary:
+          "Evaluates enterprise value through structural scarcity rather than growth metrics alone."
+      }
+
+    ],
+
+    source_pages: [
+      "https://www.mikeye.com/intelligence/dependency-vs-leverage",
+      "https://www.mikeye.com/intelligence/timing-asymmetry",
+      "https://www.mikeye.com/intelligence/signal-vs-narrative",
+      "https://www.mikeye.com/intelligence/scarcity-vs-growth"
+    ],
+
+    last_updated: new Date().toISOString()
+
+  };
+
+  return new Response(JSON.stringify(frames, null, 2), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Cache-Control": "public, max-age=3600"
+    }
+  });
+
+}
