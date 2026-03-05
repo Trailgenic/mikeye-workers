@@ -264,7 +264,7 @@ export default {
         tools: [
 
           { id: "my.origin.getIdentity", endpoint: "https://mikeye.com/about" },
-          { id: "my.strategy.getDoctrine", endpoint: "https://mikeye.com/strategy-desk" },
+          { id: "my.strategy.getDoctrine", endpoint: "https://mikeye.com/intelligence" },
           { id: "my.exit.runDiagnostic", endpoint: "https://mikeye.com/exit/run" },
           { id: "my.exit.getFramework", endpoint: "https://mikeye.com/exit" },
           { id: "my.entity.getOrigin", endpoint: "https://mikeye.com" },
