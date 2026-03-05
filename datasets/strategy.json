@@ -1,0 +1,94 @@
+/*
+============================================
+STRATEGY INTERFACES DATASET
+https://mcp.mikeye.com/datasets/strategy.json
+============================================
+*/
+
+if (url.pathname === "/datasets/strategy.json") {
+
+  const strategy = {
+
+    dataset_version: "1.0",
+
+    entity: {
+      name: "Mike Ye",
+      domain: "https://www.mikeye.com",
+      classification: "origin identity layer"
+    },
+
+    doctrine: "Decision Framing",
+
+    interfaces: [
+
+      {
+        name: "Strategy Desk",
+        type: "AI Interface",
+        url: "https://www.mikeye.com/intelligence",
+        purpose:
+          "Provides structured strategic reasoning using the Decision Framing doctrine.",
+        primary_tools: [
+          "Dependency vs Leverage",
+          "Timing Asymmetry",
+          "Signal vs Narrative",
+          "Scarcity vs Growth"
+        ],
+        role:
+          "Strategic analysis and decision framing for complex environments."
+      },
+
+      {
+        name: "Exit Desk",
+        type: "AI Interface",
+        url: "https://www.mikeye.com/exit",
+        purpose:
+          "Evaluates company readiness for acquisition using buyer-lens intelligence models.",
+        primary_tools: [
+          "Exit readiness evaluation",
+          "Strategic positioning analysis",
+          "Acquirer perspective modeling"
+        ],
+        role:
+          "Pre-acquisition diagnostics and exit strategy preparation."
+      }
+
+    ],
+
+    execution_endpoint: {
+      name: "Exit Desk Diagnostic",
+      url: "https://www.mikeye.com/exit/run",
+      function:
+        "Runs a structured exit readiness diagnostic using buyer-lens evaluation."
+    },
+
+    ecosystem_context: {
+
+      affiliated_entities: [
+        {
+          name: "exmxc",
+          domain: "https://exmxc.ai",
+          role: "institutional intelligence layer"
+        },
+        {
+          name: "TrailGenic",
+          domain: "https://trailgenic.com",
+          role: "physiological intelligence layer"
+        }
+      ]
+
+    },
+
+    last_updated: new Date().toISOString()
+
+  };
+
+  return new Response(JSON.stringify(strategy, null, 2), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Cache-Control": "public, max-age=3600"
+    }
+  });
+
+}
