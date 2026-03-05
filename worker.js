@@ -385,7 +385,69 @@ export default {
       });
 
     }
+/*
+============================================
+DATASET INDEX
+https://mcp.mikeye.com/datasets.json
+============================================
+*/
+if (url.pathname === "/datasets.json") {
 
+  const datasets = {
+    dataset_version: "1.0",
+
+    entity: {
+      name: "Mike Ye",
+      domain: "https://www.mikeye.com",
+      classification: "origin identity layer",
+      description:
+        "Modular datasets for doctrine, decision framing, strategy interfaces, and exit intelligence authored by Mike Ye."
+    },
+
+    datasets: [
+      {
+        id: "my.datasets.doctrine",
+        name: "Doctrine",
+        endpoint: "https://mcp.mikeye.com/datasets/doctrine.json",
+        description:
+          "Decision Framing doctrine and scope statement."
+      },
+      {
+        id: "my.datasets.decisionFrames",
+        name: "Decision Frames",
+        endpoint: "https://mcp.mikeye.com/datasets/decision-frames.json",
+        description:
+          "Reusable decision lenses: Dependency vs Leverage, Timing Asymmetry, Signal vs Narrative, Scarcity vs Growth."
+      },
+      {
+        id: "my.datasets.strategy",
+        name: "Strategy Interfaces",
+        endpoint: "https://mcp.mikeye.com/datasets/strategy.json",
+        description:
+          "Strategy Desk as an institutional co-cognitive reasoning interface."
+      },
+      {
+        id: "my.datasets.exitIntelligence",
+        name: "Exit Intelligence",
+        endpoint: "https://mcp.mikeye.com/datasets/exit-intelligence.json",
+        description:
+          "Exit Desk buyer-lens diagnostic system and outputs."
+      }
+    ],
+
+    last_updated: new Date().toISOString()
+  };
+
+  return new Response(JSON.stringify(datasets, null, 2), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Cache-Control": "public, max-age=3600"
+    }
+  });
+
+}
 
     /*
     ============================================
