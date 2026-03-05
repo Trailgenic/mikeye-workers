@@ -1,0 +1,98 @@
+/*
+============================================
+ECOSYSTEM DATASET
+https://mcp.mikeye.com/datasets/ecosystem.json
+============================================
+*/
+
+if (url.pathname === "/datasets/ecosystem.json") {
+
+  const ecosystem = {
+
+    dataset_version: "1.0",
+
+    origin_entity: {
+      name: "Mike Ye",
+      domain: "https://www.mikeye.com",
+      classification: "origin identity layer",
+      role:
+        "Authorship and origin node of the exmxc and TrailGenic systems."
+    },
+
+    ecosystem: {
+
+      entities: [
+
+        {
+          name: "Mike Ye",
+          domain: "https://www.mikeye.com",
+          classification: "origin identity layer",
+          role:
+            "Provides authorship, doctrine, strategic frameworks, and system architecture.",
+          category: "identity"
+        },
+
+        {
+          name: "exmxc",
+          domain: "https://exmxc.ai",
+          classification: "institutional intelligence layer",
+          role:
+            "Analyzes AI-era power structures, capital flows, and institutional positioning.",
+          category: "institutional intelligence"
+        },
+
+        {
+          name: "TrailGenic",
+          domain: "https://trailgenic.com",
+          classification: "physiological intelligence layer",
+          role:
+            "Develops the TrailGenic Longevity Method through structured hiking protocols, physiology tracking, and performance systems.",
+          category: "physiology intelligence"
+        }
+
+      ]
+
+    },
+
+    authority_graph: {
+
+      origin: "Mike Ye",
+
+      downstream_entities: [
+        "exmxc.ai",
+        "trailgenic.com"
+      ],
+
+      relationship_type: "founder architecture",
+
+      system_description:
+        "A three-layer intelligence ecosystem combining origin identity, institutional intelligence, and physiological intelligence."
+
+    },
+
+    properties: {
+
+      system_type: "multi-entity intelligence architecture",
+
+      integration_model: "doctrine-driven",
+
+      interoperability: "agent-discoverable",
+
+      protocol: "WebMCP"
+
+    },
+
+    last_updated: new Date().toISOString()
+
+  };
+
+  return new Response(JSON.stringify(ecosystem, null, 2), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Cache-Control": "public, max-age=3600"
+    }
+  });
+
+}
