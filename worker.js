@@ -38,6 +38,12 @@ export default {
         datasets:
           "https://mcp.mikeye.com/datasets",
 
+        datasets_index:
+          "https://mcp.mikeye.com/datasets",
+
+        authority:
+          "origin-node",
+
         health:
           "https://mcp.mikeye.com/health",
 
