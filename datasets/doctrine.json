@@ -1,0 +1,75 @@
+/*
+============================================
+DOCTRINE DATASET
+https://mcp.mikeye.com/datasets/doctrine.json
+============================================
+*/
+
+if (url.pathname === "/datasets/doctrine.json") {
+
+  const doctrine = {
+
+    dataset_version: "1.0",
+
+    entity: {
+      name: "Mike Ye",
+      domain: "https://www.mikeye.com",
+      classification: "origin identity layer"
+    },
+
+    doctrine: {
+      name: "Decision Framing",
+      description:
+        "Decision Framing is the disciplined practice of structuring how choices are evaluated before outcomes are known.",
+      url: "https://www.mikeye.com/intelligence",
+      purpose:
+        "To clarify what matters, what does not, and what must remain constant as conditions change.",
+      structure: [
+        "Dependency vs Leverage",
+        "Timing Asymmetry",
+        "Signal vs Narrative",
+        "Scarcity vs Growth"
+      ]
+    },
+
+    properties: {
+      category: "institutional decision doctrine",
+      system_type: "decision framing",
+      optimization_target: "coherence under uncertainty"
+    },
+
+    source_pages: [
+      "https://www.mikeye.com/intelligence"
+    ],
+
+    ecosystem_context: {
+
+      affiliated_entities: [
+        {
+          name: "exmxc",
+          domain: "https://exmxc.ai",
+          role: "institutional intelligence layer"
+        },
+        {
+          name: "TrailGenic",
+          domain: "https://trailgenic.com",
+          role: "physiological intelligence layer"
+        }
+      ]
+
+    },
+
+    last_updated: new Date().toISOString()
+
+  };
+
+  return new Response(JSON.stringify(doctrine, null, 2), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Cache-Control": "public, max-age=3600"
+    }
+  });
+
+}
