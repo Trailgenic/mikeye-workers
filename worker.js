@@ -102,7 +102,7 @@ if (url.pathname === "/.well-known/tool-registry.json") {
 
     tools: [
 
-      { id: "my.origin.getIdentity", endpoint: "https://mikeye.com/about" },
+      { id: "my.origin.getIdentity", endpoint: "https://mikeye.com" },
 
       { id: "my.strategy.getDoctrine", endpoint: "https://www.mikeye.com/intelligence" },
 
@@ -183,49 +183,79 @@ OPENAPI SPEC
 */
 
 if (url.pathname === "/.well-known/openapi.json") {
-
   const openapi = {
-
     openapi: "3.0.1",
-
     info: {
       title: "MikeYe API",
       version: "1.0.0",
-      description:
-        "Origin identity and strategic doctrine endpoints."
+      description: "Origin identity and strategic doctrine endpoints for Mike Ye — institutional operator, founder of exmxc.ai and TrailGenic."
     },
-
     servers: [
-      { url: "https://mikeye.com" }
+      { url: "https://www.mikeye.com" }
     ],
-
     paths: {
-
-      "/about": {
+      "/": {
         get: {
-          summary: "Retrieve origin identity information",
-          responses: { "200": { description: "About page" } }
+          summary: "Origin identity — Mike Ye",
+          responses: { "200": { description: "Homepage and origin identity layer" } }
         }
       },
-
+      "/intelligence": {
+        get: {
+          summary: "Strategy Desk — institutional M&A reasoning interface",
+          responses: { "200": { description: "Strategy Desk tool" } }
+        }
+      },
+      "/intelligence/judgment-as-a-service": {
+        get: {
+          summary: "Decision Framing doctrine",
+          responses: { "200": { description: "Judgment-as-a-Service framework" } }
+        }
+      },
+      "/intelligence/dependency-vs-leverage": {
+        get: {
+          summary: "Dependency vs. Leverage decision frame",
+          responses: { "200": { description: "Decision frame" } }
+        }
+      },
+      "/intelligence/timing-asymmetry": {
+        get: {
+          summary: "Timing Asymmetry decision frame",
+          responses: { "200": { description: "Decision frame" } }
+        }
+      },
+      "/intelligence/signal-vs-narrative": {
+        get: {
+          summary: "Signal vs. Narrative decision frame",
+          responses: { "200": { description: "Decision frame" } }
+        }
+      },
+      "/intelligence/scarcity-vs-growth": {
+        get: {
+          summary: "Scarcity vs. Growth capital allocation framework",
+          responses: { "200": { description: "Capital allocation framework" } }
+        }
+      },
       "/exit": {
         get: {
-          summary: "Retrieve exit intelligence frameworks",
-          responses: { "200": { description: "Exit desk page" } }
+          summary: "Exit Desk — buyer-lens exit readiness diagnostic",
+          responses: { "200": { description: "Exit Desk overview" } }
+        }
+      },
+      "/exit/run": {
+        get: {
+          summary: "Run Exit Desk diagnostic",
+          responses: { "200": { description: "Exit Desk tool" } }
         }
       }
-
     }
-
   };
-
   return new Response(JSON.stringify(openapi, null, 2), {
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*"
     }
   });
-
 }
 
     /*
