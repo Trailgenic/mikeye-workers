@@ -1,0 +1,65 @@
+{
+  "name": "Exit Desk Keyword Strategy",
+  "description": "Keyword research synthesis underlying the Exit Desk Glossary and paid search strategy. Demand map of seller search behavior, prioritized keyword tiers by competition and intent quality, and the wedge thesis differentiating Exit Desk from legacy M&A advisory firms.",
+  "strategic_frame": {
+    "branded_layer": "mikeye.com wins definitional queries for 'Exit Desk' across AI engines (ChatGPT cites mikeye.com as source). Branded entity discovery is functional.",
+    "category_layer": "Generic M&A category queries (e.g., 'exit readiness assessment') are owned by legacy firms with 10+ years domain authority — wrong fight, wrong click intent.",
+    "wedge": "Long-tail proprietary and specific-vocabulary phrases where competition is low, AI engines need canonical definitions, and click intent maps directly to a $499 product."
+  },
+  "demand_buckets": [
+    { "rank": 1, "name": "Valuation vocabulary", "description": "Highest search volume cluster. SDE vs EBITDA, multiples, add-backs, normalization, recasting, QoE.", "anxiety_level": "moderate" },
+    { "rank": 2, "name": "Deal mechanics and risk-shifting", "description": "Second highest, highest anxiety. Earnout, holdback, escrow, working capital peg, seller financing, equity rollover, indemnification.", "anxiety_level": "high" },
+    { "rank": 3, "name": "Process and document vocabulary", "description": "LOI, NDA, CIM, due diligence, QoE, asset sale vs stock sale.", "anxiety_level": "moderate" },
+    { "rank": 4, "name": "Readiness concepts", "description": "Owner dependency, customer concentration, recurring revenue, key person risk, transferability.", "anxiety_level": "low_to_moderate" }
+  ],
+  "prioritized_tiers": {
+    "tier_a_buy_side": {
+      "description": "Highest priority, lowest competition. Buy-side language sellers search but generic glossaries don't define from the buyer's seat.",
+      "keywords": [
+        "What private equity looks for in acquisitions",
+        "EBITDA add-backs (disallowed add-backs)",
+        "Quality of earnings",
+        "Customer concentration discount",
+        "Owner dependency discount",
+        "Rep and warranty insurance",
+        "Earnout vs cash at close",
+        "Seller financing",
+        "Working capital peg",
+        "Private equity vs strategic buyer",
+        "Due diligence (what kills a business sale)",
+        "LOI to close (price drop / re-trade)",
+        "Re-trade"
+      ]
+    },
+    "tier_b_diligence_and_prep": {
+      "description": "Diligence and pre-sale preparation vocabulary.",
+      "keywords": [
+        "Due diligence checklist (seller-side)",
+        "Preparing financials for business sale",
+        "Add-backs for business sale",
+        "Quality of earnings report (seller-commissioned)",
+        "Business sale red flags",
+        "Increase business value before selling",
+        "Fix owner dependency",
+        "Value gap analysis"
+      ]
+    },
+    "tier_c_vertical_buyer_intent": {
+      "description": "Vertical roll-up and buyer-side specific terms.",
+      "keywords": [
+        "PE roll-up",
+        "DSO (Dental Service Organization)",
+        "Selling to private equity",
+        "ESOP vs strategic buyer",
+        "Search fund buyer",
+        "Independent sponsor"
+      ]
+    }
+  },
+  "tam_expansion": {
+    "context": "Exit Desk TAM expanded mid-research to include sub-$1M businesses (the modal seller, not edge case).",
+    "data": "Approximately 80% of US small businesses with employees are sub-$1M. Median deal size is $329K–$352K. Underserved segment because every existing exit-readiness product excludes them.",
+    "voice_implication": "SDE became default earnings metric. EBITDA framed as 'what comes next when you grow.' Examples default to $400K SDE / $200K profit ranges. Sparing use of '$X and $X' scale comparisons demonstrates the lens applies across all deal sizes."
+  },
+  "competitive_moat": "Legacy firms can't compete in this layer. Their content libraries lack structural specificity, buyer-perspective framing, and proprietary framework names (Buyer-Lens Analysis, Diligence Pressure Map, AI Exposure Assessment, Pre-Market Action Plan, Founder Dependence)."
+}
