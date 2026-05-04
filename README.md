@@ -99,6 +99,8 @@ Current datasets:
 | Decision Frames | https://mcp.mikeye.com/datasets/decision-frames.json | Core strategic lenses |
 | Strategy | https://mcp.mikeye.com/datasets/strategy.json | Strategic interfaces |
 | Ecosystem | https://mcp.mikeye.com/datasets/ecosystem.json | Entity graph |
+| Glossary | https://mcp.mikeye.com/datasets/glossary.json | Exit Desk Glossary — 53-entry M&A vocabulary |
+| Keywords | https://mcp.mikeye.com/datasets/keywords.json | Keyword strategy and demand map |
 
 ---
 
