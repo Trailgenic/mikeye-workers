@@ -1,6 +1,6 @@
 {
   "name": "Exit Desk Glossary",
-  "description": "M&A and exit-readiness vocabulary defined for small business owners — 52 entries authored by Mike Ye from twenty-five years and $7.4B of buy-side and sell-side judgment. Every term includes a definition, a seller-perspective implication, and a buyer-perspective observation.",
+  "description": "M&A and exit-readiness vocabulary defined for small business owners — 54 entries authored by Mike Ye from twenty-five years and $7.4B of buy-side and sell-side judgment. Every term includes a definition, a seller-perspective implication, and a buyer-perspective observation.",
   "hub_url": "https://www.mikeye.com/glossary",
   "schema_type": "DefinedTermSet",
   "categories": [
@@ -138,6 +138,13 @@
       "url": "https://www.mikeye.com/glossary/esop-vs-strategic-sale",
       "category": "The Mechanics",
       "summary": "Selling to your employees through an Employee Stock Ownership Plan vs. selling to an outside buyer — different tax treatment, different price, different legacy."
+    },
+    {
+      "name": "Family Office",
+      "slug": "family-office",
+      "url": "https://www.mikeye.com/glossary/family-office",
+      "category": "The People",
+      "summary": "A private investment vehicle for one wealthy family — increasingly buying small and mid-sized businesses directly."
     },
     {
       "name": "Financial Buyer",
