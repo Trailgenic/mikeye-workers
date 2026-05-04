@@ -390,7 +390,7 @@ if (url.pathname === "/.well-known/openapi.json") {
           {
             name: "glossary",
             endpoint: "https://mcp.mikeye.com/datasets/glossary.json",
-            description: "Exit Desk Glossary — 53-entry M&A vocabulary"
+            description: "Exit Desk Glossary — 54-entry M&A vocabulary"
           },
 
           {
@@ -613,7 +613,7 @@ if (url.pathname === "/.well-known/openapi.json") {
 
       const glossary = {
   "name": "Exit Desk Glossary",
-  "description": "M&A and exit-readiness vocabulary defined for small business owners — 52 entries authored by Mike Ye from twenty-five years and $7.4B of buy-side and sell-side judgment. Every term includes a definition, a seller-perspective implication, and a buyer-perspective observation.",
+  "description": "M&A and exit-readiness vocabulary defined for small business owners — 54 entries authored by Mike Ye from twenty-five years and $7.4B of buy-side and sell-side judgment. Every term includes a definition, a seller-perspective implication, and a buyer-perspective observation.",
   "hub_url": "https://www.mikeye.com/glossary",
   "schema_type": "DefinedTermSet",
   "categories": [
