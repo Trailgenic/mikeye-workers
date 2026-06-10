@@ -1,109 +1,63 @@
-# MikeYe MCP Endpoint
+# mikeye-workers
 
-This repository powers the **Model Context Protocol (MCP) endpoint for mikeye.com**, the origin identity layer of the Mike Ye ecosystem.
+MCP node for **mikeye.com** — origin identity layer of the Mike Ye ecosystem (exmxc.ai, trailgenic.com, sleepgenic.ai, ellaentity.ai).
 
-The MCP node exposes structured discovery, capability definitions, and modular datasets that allow AI agents to interpret the strategic frameworks, doctrine, and ecosystem architecture authored by Mike Ye.
+**Live endpoint:** https://mcp.mikeye.com
+**Cloudflare account:** mike@trailgenic.com
+**Deploy:** manual `wrangler deploy` (CI pending)
 
-This endpoint operates as the **origin node** connecting:
+## v2.0 — MCP Streamable HTTP
 
-- https://mikeye.com
-- https://exmxc.ai
-- https://trailgenic.com
+The worker serves both a JSON-RPC 2.0 MCP transport and a backward-compatible REST surface.
 
----
+### MCP transport — `POST /mcp`
 
-## Architecture
+Supports `initialize`, `ping`, `tools/list`, `tools/call`, `notifications/initialized`.
 
-The system follows a **thin worker + modular datasets** architecture.
+| Tool | Description |
+|---|---|
+| `my.origin.getIdentity` | Canonical identity + 5-domain sameAs graph |
+| `my.strategy.getDoctrine` | Decision Framing doctrine |
+| `my.frames.get` | Five decision frames, filterable by `name` / `category` |
+| `my.exit.getFramework` | Buyer-Lens Audit™ v1.0 — six dimensions, two-tier delivery |
+| `my.exit.runDiagnostic` | Diagnostic structure + tier routing ($199 / $499) |
+| `my.dataset.get` | Any named dataset (`origin`, `doctrine`, `decision_frames`, `strategy`, `ecosystem`, `glossary`, `keywords`) |
 
-Cloudflare Worker handles:
+### REST surface (backward compatible)
 
-- discovery
-- routing
-- registry
-- capability definitions
-- dataset endpoints
+- `/` — root discovery
+- `/.well-known/tool-registry.json` · `/.well-known/mcp.json` · `/.well-known/ai-plugin.json` · `/.well-known/openapi.json`
+- `/capabilities.json` · `/health`
+- `/datasets` + `/datasets/{origin,doctrine,decision-frames,strategy,ecosystem,glossary,keywords}.json`
+- `/frameworks/buyer-lens-audit.json` — **new in v2**
+- `/exit/diagnostic.json` — **new in v2**
 
-Datasets are modular and expandable without modifying the worker core.
+## Structure
 
-**MCP Endpoint**
-- https://mcp.mikeye.com
+```
+worker.js          — router + MCP transport
+lib/registry.js    — entity, tools, frames, BLA framework, doctrine, ecosystem (single source of truth)
+lib/tools.js       — tool handlers + dataset builders
+lib/http.js        — response helpers
+datasets/          — glossary.json, keywords.json (real files, bundled at build)
+```
 
----
+## v2.0 content changes
 
-## Discovery
+- **Decision frames: 4 → 5.** Judgment-as-a-Service added to `decision-frames.json` and doctrine structure (was on site, missing from datasets).
+- **Entity graph: 3 → 5 domains.** sleepgenic.ai and ellaentity.ai added to `ecosystem.json`, `affiliated_entities`, and sameAs everywhere.
+- **Buyer-Lens Audit™ v1.0** formalized: six named dimensions with evaluation criteria, provenance, and two-tier delivery model (Main Street $199 ≤ $1M revenue / Full Report $499).
 
-Root MCP discovery endpoint:
+## Deploy
 
-- https://mcp.mikeye.com/
+```bash
+wrangler deploy   # from the mike@trailgenic.com account
+```
 
-This endpoint exposes:
+Note: JSON imports use `with { type: "json" }`. If an older Wrangler/esbuild rejects it, switch to `assert { type: "json" }` in `lib/tools.js`.
 
-- registry
-- plugin
-- openapi
-- capabilities
-- datasets index
-- health
-- affiliated ecosystem entities
+## Smoke test
 
----
-
-## Core MCP Endpoints
-
-### Tool Registry
-- https://mcp.mikeye.com/.well-known/tool-registry.json
-
-Defines available tools and their corresponding endpoints.
-
-### AI Plugin Manifest
-- https://mcp.mikeye.com/.well-known/ai-plugin.json
-
-Provides plugin metadata used by AI agents and tool integrations.
-
-### OpenAPI Specification
-- https://mcp.mikeye.com/.well-known/openapi.json
-
-Machine-readable API specification describing accessible endpoints.
-
-### Capabilities
-- https://mcp.mikeye.com/capabilities.json
-
-Describes available tools and system capabilities including:
-
-- origin identity
-- strategic doctrine
-- exit intelligence
-- ecosystem graph
-- dataset access
-
-### Health Check
-- https://mcp.mikeye.com/health
-
-Infrastructure status endpoint.
-
----
-
-## Dataset Index
-
-All datasets are discoverable through:
-
-- https://mcp.mikeye.com/datasets
-
-Current datasets:
-
-| Dataset | Endpoint | Description |
-|--------|----------|-------------|
-| Origin | https://mcp.mikeye.com/datasets/origin.json | Identity and authorship node |
-| Doctrine | https://mcp.mikeye.com/datasets/doctrine.json | Decision framing doctrine |
-| Decision Frames | https://mcp.mikeye.com/datasets/decision-frames.json | Core strategic lenses |
-| Strategy | https://mcp.mikeye.com/datasets/strategy.json | Strategic interfaces |
-| Ecosystem | https://mcp.mikeye.com/datasets/ecosystem.json | Entity graph |
-| Glossary | https://mcp.mikeye.com/datasets/glossary.json | Exit Desk Glossary — 54-entry M&A vocabulary |
-| Keywords | https://mcp.mikeye.com/datasets/keywords.json | Keyword strategy and demand map |
-
----
-
-## Ecosystem Architecture
-
-The Mike Ye MCP node functions as the **origin identity layer** of a broader system:
+```bash
+node smoke.mjs    # 46 assertions: REST routes, content sync, full MCP flow
+```
