@@ -10,7 +10,7 @@ let pass = 0, fail = 0;
 const check = (name, cond, extra='') => { cond ? pass++ : (fail++, console.log('FAIL:', name, extra)); };
 
 // REST routes
-for (const p of ['/', '/.well-known/tool-registry.json', '/.well-known/mcp.json', '/.well-known/ai-plugin.json', '/.well-known/openapi.json', '/capabilities.json', '/health', '/datasets', '/datasets/origin.json', '/datasets/doctrine.json', '/datasets/decision-frames.json', '/datasets/strategy.json', '/datasets/ecosystem.json', '/datasets/glossary.json', '/datasets/keywords.json', '/frameworks/buyer-lens-audit.json', '/exit/diagnostic.json']) {
+for (const p of ['/', '/.well-known/tool-registry.json', '/.well-known/mcp.json', '/.well-known/ai-plugin.json', '/.well-known/openapi.json', '/capabilities.json', '/health', '/datasets', '/datasets/origin.json', '/datasets/doctrine.json', '/datasets/decision-frames.json', '/datasets/strategy.json', '/datasets/ecosystem.json', '/datasets/glossary.json', '/glossary/lookup.json?term=earnout', '/datasets/keywords.json', '/frameworks/buyer-lens-audit.json', '/exit/diagnostic.json']) {
   const r = await get(p);
   const ok = r.status === 200;
   let body = null;
@@ -36,7 +36,7 @@ check('BLA tiers 199/499', bla.delivery.paid_tiers[0].price_usd === 199 && bla.d
 
 const reg = await (await get('/.well-known/tool-registry.json')).json();
 check('registry v2.0', reg.registry_version === '2.0');
-check('registry 6 tools', reg.tools.length === 6, `got ${reg.tools.length}`);
+check('registry 7 tools', reg.tools.length === 7, `got ${reg.tools.length}`);
 check('registry transport', reg.discovery.mcp_transport.endpoint === 'https://mcp.mikeye.com/mcp');
 check('registry 4 affiliates', reg.entity.affiliated_entities.length === 4);
 
@@ -51,7 +51,7 @@ const ping = await (await rpc({ jsonrpc: '2.0', id: 2, method: 'ping' })).json()
 check('ping', !!ping.result);
 
 const list = await (await rpc({ jsonrpc: '2.0', id: 3, method: 'tools/list' })).json();
-check('tools/list 6', list.result?.tools?.length === 6, `got ${list.result?.tools?.length}`);
+check('tools/list 7', list.result?.tools?.length === 7, `got ${list.result?.tools?.length}`);
 check('tools have inputSchema', list.result.tools.every(t => t.inputSchema?.type === 'object'));
 
 for (const [name, args] of [['my.origin.getIdentity', {}], ['my.strategy.getDoctrine', {}], ['my.frames.get', { category: 'timing' }], ['my.exit.getFramework', {}], ['my.exit.runDiagnostic', {}], ['my.dataset.get', { name: 'glossary' }]]) {
@@ -61,6 +61,16 @@ for (const [name, args] of [['my.origin.getIdentity', {}], ['my.strategy.getDoct
 
 const callRes = await (await rpc({ jsonrpc: '2.0', id: 10, method: 'tools/call', params: { name: 'my.frames.get', arguments: { category: 'timing' } } })).json();
 check('frames.get filter via MCP', callRes.result.structuredContent.items.length === 1 && callRes.result.structuredContent.items[0].name === 'Timing Asymmetry');
+
+const glossaryTerm = await (await rpc({ jsonrpc: '2.0', id: 14, method: 'tools/call', params: { name: 'my.glossary.lookup', arguments: { term: 'ebitda' } } })).json();
+check('glossary.lookup EBITDA via MCP', glossaryTerm.result?.structuredContent?.match_count >= 1 && glossaryTerm.result.structuredContent.entries.some((entry) => entry.url.includes('/glossary/')));
+
+const glossaryIndex = await (await rpc({ jsonrpc: '2.0', id: 15, method: 'tools/call', params: { name: 'my.glossary.lookup', arguments: {} } })).json();
+check('glossary.lookup index via MCP', glossaryIndex.result?.structuredContent?.entries?.length === 54, `got ${glossaryIndex.result?.structuredContent?.entries?.length}`);
+
+const glossaryRest = await get('/glossary/lookup.json?term=earnout');
+const glossaryRestBody = await glossaryRest.json();
+check('GET /glossary/lookup.json term', glossaryRest.status === 200 && glossaryRestBody.match_count >= 1, `status=${glossaryRest.status} count=${glossaryRestBody.match_count}`);
 
 const badTool = await (await rpc({ jsonrpc: '2.0', id: 11, method: 'tools/call', params: { name: 'nope' } })).json();
 check('unknown tool -32602', badTool.error?.code === -32602);
