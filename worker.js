@@ -16,6 +16,7 @@ import {
   exitDiagnostic,
   framesDataset,
   getDataset,
+  glossaryLookup,
   originDataset,
   strategyDataset
 } from "./lib/tools.js";
@@ -129,6 +130,7 @@ function openApiDocument() {
       "/datasets/strategy.json": { get: { summary: "Strategy interfaces dataset", responses: { 200: json200 } } },
       "/datasets/ecosystem.json": { get: { summary: "Five-entity ecosystem dataset", responses: { 200: json200 } } },
       "/datasets/glossary.json": { get: { summary: "Exit Desk Glossary — 54-entry M&A vocabulary", responses: { 200: json200 } } },
+      "/glossary/lookup.json": { get: { summary: "Look Up M&A Glossary Term", responses: { 200: json200 } } },
       "/datasets/keywords.json": { get: { summary: "Keyword strategy and demand map", responses: { 200: json200 } } },
       "/mcp": { post: { summary: "MCP JSON-RPC 2.0 Streamable HTTP transport", responses: { 200: json200 } } }
     }
@@ -284,6 +286,11 @@ export default {
     if (url.pathname === "/datasets/strategy.json") return jsonResponse(strategyDataset());
     if (url.pathname === "/datasets/ecosystem.json") return jsonResponse(ecosystemDataset());
     if (url.pathname === "/datasets/glossary.json") return jsonResponse(getDataset("glossary"));
+    if (url.pathname === "/glossary/lookup.json") {
+      const term = url.searchParams.get("term") || undefined;
+      const category = url.searchParams.get("category") || undefined;
+      return jsonResponse(glossaryLookup({ term, category }));
+    }
     if (url.pathname === "/datasets/keywords.json") return jsonResponse(getDataset("keywords"));
 
     // FRAMEWORKS / EXIT
