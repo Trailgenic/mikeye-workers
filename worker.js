@@ -75,7 +75,7 @@ function capabilitiesDocument() {
     },
     authority_graph: {
       position: "origin node",
-      downstream_entities: ENTITY.sameAs
+      downstream_entities: ENTITY.affiliated_entities
     },
     last_updated: BUILD.released
   };
@@ -243,7 +243,7 @@ export default {
         frameworks: { buyer_lens_audit: `${MCP_ORIGIN}/frameworks/buyer-lens-audit.json` },
         authority: "origin-node",
         health: `${MCP_ORIGIN}/health`,
-        affiliated_entities: ENTITY.sameAs,
+        affiliated_entities: ENTITY.affiliated_entities,
         status: "active",
         discovery_protocol: "WebMCP + MCP Streamable HTTP",
         version: BUILD.version,

@@ -39,6 +39,15 @@ check('registry v2.0', reg.registry_version === '2.0');
 check('registry 7 tools', reg.tools.length === 7, `got ${reg.tools.length}`);
 check('registry transport', reg.discovery.mcp_transport.endpoint === 'https://mcp.mikeye.com/mcp');
 check('registry 4 affiliates', reg.entity.affiliated_entities.length === 4);
+check('registry sameAs uses Mike Ye identity profiles', reg.entity.sameAs.includes('https://www.linkedin.com/in/michaelye73/') && reg.entity.sameAs.includes('https://www.exmxc.ai/about-us/mike-ye'));
+check('registry sameAs excludes affiliated entity domains', !reg.entity.sameAs.includes('https://exmxc.ai') && !reg.entity.sameAs.includes('https://trailgenic.com'));
+
+const origin = await (await get('/datasets/origin.json')).json();
+check('origin domains preserve 5-domain ecosystem', origin.domains.length === 5 && origin.domains.includes('https://sleepgenic.ai'));
+check('origin sameAs uses identity profiles', origin.sameAs.includes('https://www.imdb.com/name/nm12653668/'));
+
+const capabilities = await (await get('/capabilities.json')).json();
+check('capabilities downstream graph uses affiliates', capabilities.authority_graph.downstream_entities.length === 4 && capabilities.authority_graph.downstream_entities.includes('https://ellaentity.ai'));
 
 // MCP transport
 const init = await (await rpc({ jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2025-06-18' } })).json();
