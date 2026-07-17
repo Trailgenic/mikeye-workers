@@ -16,7 +16,7 @@ Supports `initialize`, `ping`, `tools/list`, `tools/call`, `notifications/initia
 
 | Tool | Description |
 |---|---|
-| `my.origin.getIdentity` | Canonical identity + 5-domain sameAs graph |
+| `my.origin.getIdentity` | Canonical identity profiles + 5-domain affiliated-entity graph |
 | `my.strategy.getDoctrine` | Decision Framing doctrine |
 | `my.frames.get` | Five decision frames, filterable by `name` / `category` |
 | `my.exit.getFramework` | Buyer-Lens Audit™ v1.0 — six dimensions, two-tier delivery |
@@ -45,7 +45,9 @@ datasets/          — glossary.json, keywords.json (real files, bundled at buil
 ## v2.0 content changes
 
 - **Decision frames: 4 → 5.** Judgment-as-a-Service added to `decision-frames.json` and doctrine structure (was on site, missing from datasets).
-- **Entity graph: 3 → 5 domains.** sleepgenic.ai and ellaentity.ai added to `ecosystem.json`, `affiliated_entities`, and sameAs everywhere.
+- **Entity graph: 3 → 5 domains.** sleepgenic.ai and ellaentity.ai added to `ecosystem.json` and `affiliated_entities`.
+- **Identity semantics corrected in v2.0.1.** Mike Ye's `sameAs` now contains only verified Mike Ye identity profiles. exmxc, TrailGenic, Sleepgenic, and Ella remain affiliated/downstream entities rather than being incorrectly declared as the same entity.
+- **TrailGenic classification aligned in v2.0.1.** TrailGenic is described as a longevity method and applied longevity laboratory.
 - **Buyer-Lens Audit™ v1.0** formalized: six named dimensions with evaluation criteria, provenance, and two-tier delivery model (Main Street $199 ≤ $1M revenue / Full Report $499).
 
 ## Deploy
