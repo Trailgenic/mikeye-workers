@@ -4,7 +4,15 @@ MCP node for **mikeye.com** — origin identity layer of the Mike Ye ecosystem (
 
 **Live endpoint:** https://mcp.mikeye.com
 **Cloudflare account:** mike@trailgenic.com
-**Deploy:** manual `wrangler deploy` (CI pending)
+**Deploy:** a push to `main` runs smoke tests, then deploys through the existing Cloudflare workflow.
+
+## v2.1 — Practical M&A library (prepared release)
+
+Adds 13 resource records, 10 M&A topics, seven versioned Excel downloads, and a shared Mike Ye authorship graph. The new public routes are `/datasets/ma-library.json`, `/ontology.json`, and `/llms.txt`; `my.dataset.get` also accepts `ma_library` and `ontology`. Existing tools, identity relationships, and Exit Desk routes remain available.
+
+These records describe the coordinated MikeYe.com rebuild. Merge this release only when the Webflow launch gate is complete and the canonical resource URLs are being published. The main-domain `/llms.txt` is managed separately; this worker exposes the updated machine guide on the MCP domain.
+
+The source inventory and schema generator are maintained in `Trailgenic/my-exitdesk`, under `site-foundation/launch` and `scripts/build-launch.mjs`. Regenerate there, copy `ma-library.json` and `ontology.json` into `datasets`, and update `lib/library-guide.js` from the generated `llms.txt`. Keep the website graphs and worker inventory synchronized in one release.
 
 ## v2.0 — MCP Streamable HTTP
 
@@ -61,5 +69,5 @@ Note: JSON imports use `with { type: "json" }`. If an older Wrangler/esbuild rej
 ## Smoke test
 
 ```bash
-node smoke.mjs    # 46 assertions: REST routes, content sync, full MCP flow
+node smoke.mjs    # 63 assertions: REST routes, content sync, full MCP flow, M&A inventory
 ```

@@ -1,3 +1,4 @@
+import { libraryGuide } from "./lib/library-guide.js";
 import { emptyResponse, jsonResponse, textResponse } from "./lib/http.js";
 import {
   BUILD,
@@ -97,9 +98,9 @@ function pluginDocument() {
     schema_version: "v1",
     name_for_human: "Mike Ye",
     name_for_model: "mikeye",
-    description_for_human: "Mike Ye — Founder of exmxc, TrailGenic, Sleepgenic, and Exit Desk.",
+    description_for_human: "Mike Ye — Practical M&A Library, Valuation Models, Diligence and Integration.",
     description_for_model:
-      "Provides origin identity, Decision Framing doctrine, decision frames, and the Buyer-Lens Audit exit-readiness framework authored by Mike Ye.",
+      "Provides Mike Ye identity, practical M&A resource inventory, valuation workbook links, diligence and integration guidance, M&A ontology, decision frameworks, and the Buyer-Lens Audit framework.",
     auth: { type: "none" },
     api: { type: "openapi", url: `${MCP_ORIGIN}/.well-known/openapi.json`, is_user_authenticated: false },
     logo_url: "https://www.mikeye.com/favicon.ico",
@@ -126,6 +127,8 @@ function openApiDocument() {
     servers: [{ url: MCP_ORIGIN }],
     paths: {
       ...toolPaths,
+      "/datasets/ma-library.json": { get: { summary: "Published M&A resources and workbook downloads", responses: { 200: json200 } } },
+      "/ontology.json": { get: { summary: "Mike Ye M&A ontology", responses: { 200: json200 } } },
       "/datasets": { get: { summary: "Dataset index", responses: { 200: json200 } } },
       "/datasets/strategy.json": { get: { summary: "Strategy interfaces dataset", responses: { 200: json200 } } },
       "/datasets/ecosystem.json": { get: { summary: "Five-entity ecosystem dataset", responses: { 200: json200 } } },
@@ -140,6 +143,8 @@ function openApiDocument() {
 function datasetIndex() {
   return {
     datasets: [
+      { name: "ma_library", endpoint: `${MCP_ORIGIN}/datasets/ma-library.json` },
+      { name: "ontology", endpoint: `${MCP_ORIGIN}/ontology.json` },
       { name: "origin", endpoint: `${MCP_ORIGIN}/datasets/origin.json` },
       { name: "doctrine", endpoint: `${MCP_ORIGIN}/datasets/doctrine.json` },
       { name: "decision_frames", endpoint: `${MCP_ORIGIN}/datasets/decision-frames.json`, description: "Five decision frames under the Decision Framing doctrine" },
@@ -231,7 +236,7 @@ export default {
         entity: {
           name: ENTITY.name,
           domain: ENTITY.domain,
-          role: "Founder of exmxc, TrailGenic, Sleepgenic, and Exit Desk",
+          role: ENTITY.role,
           classification: ENTITY.classification
         },
         registry: `${MCP_ORIGIN}/.well-known/tool-registry.json`,
@@ -241,7 +246,7 @@ export default {
         mcp_transport: MCP_TRANSPORT,
         datasets: `${MCP_ORIGIN}/datasets`,
         frameworks: { buyer_lens_audit: `${MCP_ORIGIN}/frameworks/buyer-lens-audit.json` },
-        authority: "origin-node",
+        authority: "M&A authority and practical operating library",
         health: `${MCP_ORIGIN}/health`,
         affiliated_entities: ENTITY.affiliated_entities,
         status: "active",
@@ -275,6 +280,9 @@ export default {
     }
 
     // DATASETS (backward-compatible routes)
+    if (url.pathname === "/llms.txt") return textResponse(libraryGuide);
+    if (url.pathname === "/ontology.json") return jsonResponse(getDataset("ontology"), { headers: {"Content-Type":"application/ld+json"} });
+    if (url.pathname === "/datasets/ma-library.json") return jsonResponse(getDataset("ma_library"));
     if (url.pathname === "/datasets") return jsonResponse(datasetIndex());
     if (url.pathname === "/datasets/origin.json") return jsonResponse(originDataset());
     if (url.pathname === "/datasets/doctrine.json") return jsonResponse(doctrineDataset());

@@ -49,6 +49,19 @@ check('origin sameAs uses identity profiles', origin.sameAs.includes('https://ww
 const capabilities = await (await get('/capabilities.json')).json();
 check('capabilities downstream graph uses affiliates', capabilities.authority_graph.downstream_entities.length === 4 && capabilities.authority_graph.downstream_entities.includes('https://ellaentity.ai'));
 
+// Published M&A library and ontology
+const library = await (await get('/datasets/ma-library.json')).json();
+check('library contains 13 resources', library.resources.length === 13);
+check('library contains seven workbooks', library.resources.filter(r => r.download).length === 7);
+check('workbooks are verified versioned links', library.resources.filter(r => r.download).every(r => r.download.downloadVerified && /\/[a-f0-9]{40}\/public\/resources\/.+\.xlsx$/.test(r.download.url)));
+const ontology = await (await get('/ontology.json')).json();
+check('ontology topic IDs are unique', new Set(library.topics.map(t => t['@id'])).size === 10);
+check('ontology has no placeholder identifiers', !JSON.stringify(ontology).includes('#undefined'));
+check('machine guide includes all new models', ['Gap','Salesforce','Ziff Davis','Surgery Partners','NVIDIA'].every(n => library.resources.some(r => r.name.includes(n))));
+check('machine guide served as text', (await (await get('/llms.txt')).text()).includes('## Machine access'));
+
+const libRpc = await (await rpc({jsonrpc:'2.0',id:20,method:'tools/call',params:{name:'my.dataset.get',arguments:{name:'ma_library'}}})).json();
+check('MCP returns library', JSON.stringify(libRpc).includes('nvidia-valuation-model'));
 // MCP transport
 const init = await (await rpc({ jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2025-06-18' } })).json();
 check('initialize', init.result?.serverInfo?.name === 'Mike Ye' && init.result?.protocolVersion === '2025-06-18');
