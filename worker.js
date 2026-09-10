@@ -127,7 +127,7 @@ function openApiDocument() {
     servers: [{ url: MCP_ORIGIN }],
     paths: {
       ...toolPaths,
-      "/datasets/ma-library.json": { get: { summary: "Published M&A resources and workbook downloads", responses: { 200: json200 } } },
+      "/datasets/ma-library.json": { get: { summary: "M&A resources, workbook downloads, and seven-stage transaction path", responses: { 200: json200 } } },
       "/ontology.json": { get: { summary: "Mike Ye M&A ontology", responses: { 200: json200 } } },
       "/datasets": { get: { summary: "Dataset index", responses: { 200: json200 } } },
       "/datasets/strategy.json": { get: { summary: "Strategy interfaces dataset", responses: { 200: json200 } } },

@@ -51,17 +51,29 @@ check('capabilities downstream graph uses affiliates', capabilities.authority_gr
 
 // Published M&A library and ontology
 const library = await (await get('/datasets/ma-library.json')).json();
-check('library contains 13 resources', library.resources.length === 13);
-check('library contains seven workbooks', library.resources.filter(r => r.download).length === 7);
+check('library contains 15 resources', library.resources.length === 15);
+check('library contains nine verified published workbooks', library.resources.filter(r => r.download).length === 9);
 check('workbooks are verified versioned links', library.resources.filter(r => r.download).every(r => r.download.downloadVerified && /\/[a-f0-9]{40}\/public\/resources\/.+\.xlsx$/.test(r.download.url)));
 const ontology = await (await get('/ontology.json')).json();
 check('ontology topic IDs are unique', new Set(library.topics.map(t => t['@id'])).size === 10);
 check('ontology has no placeholder identifiers', !JSON.stringify(ontology).includes('#undefined'));
+check('library keeps five company valuation models', library.resources.filter(r => r.type === 'Model').length === 5);
+check('library includes the three comprehensive checklists', ['deal-workflow','workflow-diligence','integration-continuity'].every(id => library.resources.some(r => r.id === id && r.download)));
+check('synergy reference is classified as a published tool', library.resources.some(r => r.id === 'synergy-value-bridge' && r.type === 'Tool' && r.topic === 'synergies' && r.status === 'published'));
+const synergy = library.resources.find(r => r.id === 'synergy-value-bridge');
+check('synergy workbook metadata is complete', synergy.download.bytes === 135876 && synergy.download.sha256 === 'f42cd99478f77a8f0664383dd81476dac4218cd5d575e1169c2341353ede48f1' && synergy.download.sheets.length === 6);
+check('synergy relates to three existing working checklists', synergy.relatedResources.length === 3 && synergy.relatedResources.every(id => library.resources.some(r => r.id === id && r.relatedResources.includes(synergy.id))));
+const stages = ontology['@graph'].find(n => n['@id'] === 'https://www.mikeye.com/m-and-a#transaction-path');
+check('transaction path has seven ordered stages', stages?.['@type'] === 'ItemList' && stages.itemListOrder === 'https://schema.org/ItemListOrderAscending' && stages.numberOfItems === 7 && stages.itemListElement.every((s, i) => s.position === i + 1));
+check('ontology labels subject taxonomy as knowledge pillars', ontology['@graph'].some(n => n['@type'] === 'DefinedTermSet' && n.name === 'Mike Ye M&A knowledge pillars' && n.hasDefinedTerm.length === 10));
+check('inventory and ontology preserve transaction order', library.transactionPath.stages.length === 7 && library.transactionPath.stages.every((s, i) => stages.itemListElement[i].item.name === s.name));
+
 check('machine guide includes all new models', ['Gap','Salesforce','Ziff Davis','Surgery Partners','NVIDIA'].every(n => library.resources.some(r => r.name.includes(n))));
 check('machine guide served as text', (await (await get('/llms.txt')).text()).includes('## Machine access'));
 
 const libRpc = await (await rpc({jsonrpc:'2.0',id:20,method:'tools/call',params:{name:'my.dataset.get',arguments:{name:'ma_library'}}})).json();
 check('MCP returns library', JSON.stringify(libRpc).includes('nvidia-valuation-model'));
+check('MCP exposes synergy resource and transaction path', libRpc.result?.structuredContent?.resources?.some(r => r.id === 'synergy-value-bridge') && libRpc.result?.structuredContent?.transactionPath?.stages?.length === 7);
 // MCP transport
 const init = await (await rpc({ jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2025-06-18' } })).json();
 check('initialize', init.result?.serverInfo?.name === 'Mike Ye' && init.result?.protocolVersion === '2025-06-18');
