@@ -87,3 +87,7 @@ Adds the Carve-Out Perimeter & TSA Planner to the divestitures pillar, with its 
 ## Library release 2.6.0
 
 Adds the Capital Allocation & Deal Affordability Tool to Strategic finance, with its verified workbook, five reciprocal resource relationships, and preserved primary seven-stage transaction path. The inventory contains nineteen resources and thirteen workbook downloads.
+
+## Library release 2.7.0
+
+Adds the Public Company Comps Workbench to Industry comps, with a blank four-tab Excel template across 12 sectors, five EV multiples, peer review, quartiles, outlier flags and implied valuation ranges. No licensed company data is included. The inventory contains twenty resources and fourteen workbook downloads. All seven primary transaction-stage destinations remain unchanged.

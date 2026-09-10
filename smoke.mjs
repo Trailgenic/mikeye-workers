@@ -51,8 +51,10 @@ check('capabilities downstream graph uses affiliates', capabilities.authority_gr
 
 // Published M&A library and ontology
 const library = await (await get('/datasets/ma-library.json')).json();
-check('library contains 19 resources', library.resources.length === 19);
-check('library contains thirteen verified published workbooks', library.resources.filter(r => r.download).length === 13);
+check('library contains 20 resources', library.resources.length === 20);
+check('library contains fourteen verified published workbooks', library.resources.filter(r => r.download).length === 14);
+const publicComps = library.resources.find(r => r.id === 'public-company-comps-workbench');
+check('Public comps template is published with a pinned download', publicComps?.status === 'published' && publicComps.download.sha256 === '54b31ceca2721933cf4b78242bd377b7b97658e5313965703343836f2f72a802' && /\/a10eafcef6e045b4bc275073cf5053997ba92005\//.test(publicComps.download.url));
 check('workbooks are verified versioned links', library.resources.filter(r => r.download).every(r => r.download.downloadVerified && /\/[a-f0-9]{40}\/public\/resources\/.+\.xlsx$/.test(r.download.url)));
 const ontology = await (await get('/ontology.json')).json();
 check('ontology topic IDs are unique', new Set(library.topics.map(t => t['@id'])).size === 10);
@@ -62,7 +64,7 @@ check('library includes the three comprehensive checklists', ['deal-workflow','w
 check('synergy reference is classified as a published tool', library.resources.some(r => r.id === 'synergy-value-bridge' && r.type === 'Tool' && r.topic === 'synergies' && r.status === 'published'));
 const synergy = library.resources.find(r => r.id === 'synergy-value-bridge');
 check('synergy workbook metadata is complete', synergy.download.bytes === 135876 && synergy.download.sha256 === 'f42cd99478f77a8f0664383dd81476dac4218cd5d575e1169c2341353ede48f1' && synergy.download.sheets.length === 6);
-check('synergy relates to working checklists and LOI economics', synergy.relatedResources.length === 7 && synergy.relatedResources.every(id => library.resources.some(r => r.id === id && r.relatedResources.includes(synergy.id))));
+check('synergy relates to working checklists and LOI economics', synergy.relatedResources.length === 8 && synergy.relatedResources.every(id => library.resources.some(r => r.id === id && r.relatedResources.includes(synergy.id))));
 const stages = ontology['@graph'].find(n => n['@id'] === 'https://www.mikeye.com/m-and-a#transaction-path');
 check('transaction path has seven ordered stages', stages?.['@type'] === 'ItemList' && stages.itemListOrder === 'https://schema.org/ItemListOrderAscending' && stages.numberOfItems === 7 && stages.itemListElement.every((s, i) => s.position === i + 1));
 check('ontology labels subject taxonomy as knowledge pillars', ontology['@graph'].some(n => n['@type'] === 'DefinedTermSet' && n.name === 'Mike Ye M&A knowledge pillars' && n.hasDefinedTerm.length === 10));
@@ -78,12 +80,12 @@ check('MCP exposes synergy resource and transaction path', libRpc.result?.struct
 const loi = library.resources.find(r => r.id === 'loi-economics-risk-allocator');
 check('LOI resource is published under deal structure', loi?.type === 'Tool' && loi.topic === 'deal-structure' && loi.status === 'published');
 check('LOI workbook has complete file metadata', loi?.download?.bytes > 10000 && /^[a-f0-9]{64}$/.test(loi.download.sha256) && loi.download.sheets[0] === 'Dashboard');
-check('LOI guide has reciprocal working-resource relationships', loi?.relatedResources?.length === 7 && loi.relatedResources.every(id => library.resources.some(r => r.id === id && r.relatedResources?.includes(loi.id))));
+check('LOI guide has reciprocal working-resource relationships', loi?.relatedResources?.length === 8 && loi.relatedResources.every(id => library.resources.some(r => r.id === id && r.relatedResources?.includes(loi.id))));
 check('LOI and diligence stage points to economics workbook', library.transactionPath.stages[3].url === '/ma-resources/loi-economics-risk-allocator');
 const mandate = library.resources.find(r => r.id === 'acquisition-mandate-target-screen');
 check('Mandate resource is published under corporate development', mandate?.type === 'Tool' && mandate.topic === 'corporate-development' && mandate.status === 'published');
 check('Mandate workbook has complete file metadata', mandate?.download?.bytes > 10000 && /^[a-f0-9]{64}$/.test(mandate.download.sha256) && mandate.download.sheets[0] === 'Dashboard');
-check('Mandate relationships are reciprocal', mandate?.relatedResources?.length === 5 && mandate.relatedResources.every(id => library.resources.some(r => r.id === id && r.relatedResources?.includes(mandate.id))));
+check('Mandate relationships are reciprocal', mandate?.relatedResources?.length === 6 && mandate.relatedResources.every(id => library.resources.some(r => r.id === id && r.relatedResources?.includes(mandate.id))));
 check('First two stages point to mandate workbook', library.transactionPath.stages.slice(0,2).every(s => s.url === '/ma-resources/acquisition-mandate-target-screen'));
 
 
@@ -97,7 +99,7 @@ check('MCP exposes carve-out planner', libRpc.result?.structuredContent?.resourc
 const capital = library.resources.find(r => r.id === 'capital-allocation-deal-affordability');
 check('Capital allocation is published under strategic finance', capital?.type === 'Tool' && capital.topic === 'strategic-finance' && capital.status === 'published');
 check('Capital allocation workbook metadata is complete', capital?.download?.bytes > 10000 && /^[a-f0-9]{64}$/.test(capital.download.sha256) && JSON.stringify(capital.download.sheets) === JSON.stringify(['Dashboard','Controls','Deal cash flow','Financing','Capacity','Alternatives','Guide']));
-check('Capital allocation relationships are reciprocal', capital?.relatedResources?.length === 5 && capital.relatedResources.every(id => library.resources.some(r => r.id === id && r.relatedResources?.includes(capital.id))));
+check('Capital allocation relationships are reciprocal', capital?.relatedResources?.length === 6 && capital.relatedResources.every(id => library.resources.some(r => r.id === id && r.relatedResources?.includes(capital.id))));
 check('MCP exposes capital allocation tool', libRpc.result?.structuredContent?.resources?.some(r => r.id === capital.id));
 
 // MCP transport
