@@ -83,3 +83,7 @@ node smoke.mjs    # REST routes, content sync, full MCP flow, M&A inventory and 
 ## Library release 2.5.0
 
 Adds the Carve-Out Perimeter & TSA Planner to the divestitures pillar, with its verified seven-tab workbook, five reciprocal resource relationships, and unchanged primary seven-stage transaction path. The inventory contains eighteen resources and twelve workbook downloads.
+
+## Library release 2.6.0
+
+Adds the Capital Allocation & Deal Affordability Tool to Strategic finance, with its verified workbook, five reciprocal resource relationships, and preserved primary seven-stage transaction path. The inventory contains nineteen resources and thirteen workbook downloads.
