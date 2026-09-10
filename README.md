@@ -6,6 +6,10 @@ MCP node for **mikeye.com** — origin identity layer of the Mike Ye ecosystem (
 **Cloudflare account:** mike@trailgenic.com
 **Deploy:** a push to `main` runs smoke tests, then deploys through the existing Cloudflare workflow.
 
+## v2.4 — Acquisition mandate and target screening
+
+Adds the Acquisition Mandate & Target Screen to the first two transaction stages. The inventory now has 17 resources and eleven commit-pinned Excel downloads. It records mandate, alternatives, requirements, evidence, and review priorities. The MCP exposes metadata and workbook links; it does not calculate or approve acquisitions. See the latest `site-foundation/mandate-release` handoff in `Trailgenic/my-exitdesk` before regenerating shared assets.
+
 ## v2.3 — LOI economics and risk allocation
 
 Synchronizes the 156-action Deal Workflow, 112-item due diligence checklist, and 104-action integration checklist. The inventory has 16 resources and ten versioned Excel downloads, including five company models and the Synergy Underwriting & Value Bridge and LOI Economics & Risk Allocator tools. The seven ordered transaction stages are distinct from the ten knowledge pillars. `my.dataset.get` exposes both structures and resource metadata; it does not execute workbook calculations. The release uses verified, commit-pinned workbooks and is coordinated with site publication.
