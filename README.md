@@ -6,9 +6,9 @@ MCP node for **mikeye.com** — origin identity layer of the Mike Ye ecosystem (
 **Cloudflare account:** mike@trailgenic.com
 **Deploy:** a push to `main` runs smoke tests, then deploys through the existing Cloudflare workflow.
 
-## v2.2 — Transaction path and synergy underwriting
+## v2.3 — LOI economics and risk allocation
 
-Synchronizes the 156-action Deal Workflow, 112-item due diligence checklist, and 104-action integration checklist. The inventory has 15 resources and nine versioned Excel downloads, including five company models and the new Synergy Underwriting & Value Bridge tool. The seven ordered transaction stages are distinct from the ten knowledge pillars. `my.dataset.get` exposes both structures and resource metadata; it does not execute workbook calculations. The release uses the verified, commit-pinned synergy workbook and is coordinated with site publication.
+Synchronizes the 156-action Deal Workflow, 112-item due diligence checklist, and 104-action integration checklist. The inventory has 16 resources and ten versioned Excel downloads, including five company models and the Synergy Underwriting & Value Bridge and LOI Economics & Risk Allocator tools. The seven ordered transaction stages are distinct from the ten knowledge pillars. `my.dataset.get` exposes both structures and resource metadata; it does not execute workbook calculations. The release uses verified, commit-pinned workbooks and is coordinated with site publication.
 
 ## v2.1 — Practical M&A library
 
