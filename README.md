@@ -79,3 +79,7 @@ Note: JSON imports use `with { type: "json" }`. If an older Wrangler/esbuild rej
 ```bash
 node smoke.mjs    # REST routes, content sync, full MCP flow, M&A inventory and transaction path
 ```
+
+## Library release 2.5.0
+
+Adds the Carve-Out Perimeter & TSA Planner to the divestitures pillar, with its verified seven-tab workbook, five reciprocal resource relationships, and unchanged primary seven-stage transaction path. The inventory contains eighteen resources and twelve workbook downloads.
