@@ -1,3 +1,9 @@
+## September 2026 catalogue alignment
+
+The current release includes 22 resources, ten topics and 16 verified downloads. Catalogue identities, reciprocal relationships and file metadata are generated from the shared my-exitdesk/site-foundation/catalogue source. Free diagnostic metadata describes five scores mapped to six paid report lenses; revenue routing is under $1M versus $1M or more. Valuation-uplift marketing claims are unchanged. Further Exit Score page schema work is deferred.
+
+Validation: `node smoke.mjs` — 93 checks pass.
+
 # mikeye-workers
 
 MCP node for **mikeye.com** — origin identity layer of the Mike Ye ecosystem (exmxc.ai, trailgenic.com, sleepgenic.ai, ellaentity.ai).
