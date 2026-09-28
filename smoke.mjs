@@ -27,7 +27,7 @@ const filtered = await (await get('/datasets/decision-frames.json?category=capit
 check('frames filter', filtered.items.length === 1 && filtered.items[0].name === 'Scarcity vs Growth');
 
 const eco = await (await get('/datasets/ecosystem.json')).json();
-check('ecosystem 5 entities', eco.entities.length === 5);
+check('ecosystem 6 entities', eco.entities.length === 6);
 check('ecosystem incl sleepgenic+ella', JSON.stringify(eco).includes('sleepgenic.ai') && JSON.stringify(eco).includes('ellaentity.ai'));
 
 const bla = await (await get('/frameworks/buyer-lens-audit.json')).json();
@@ -38,16 +38,16 @@ const reg = await (await get('/.well-known/tool-registry.json')).json();
 check('registry v2.0', reg.registry_version === '2.0');
 check('registry 7 tools', reg.tools.length === 7, `got ${reg.tools.length}`);
 check('registry transport', reg.discovery.mcp_transport.endpoint === 'https://mcp.mikeye.com/mcp');
-check('registry 4 affiliates', reg.entity.affiliated_entities.length === 4);
+check('registry 5 affiliates', reg.entity.affiliated_entities.length === 5);
 check('registry sameAs uses Mike Ye identity profiles', reg.entity.sameAs.includes('https://www.linkedin.com/in/michaelye73/') && reg.entity.sameAs.includes('https://www.exmxc.ai/about-us/mike-ye'));
 check('registry sameAs excludes affiliated entity domains', !reg.entity.sameAs.includes('https://exmxc.ai') && !reg.entity.sameAs.includes('https://trailgenic.com'));
 
 const origin = await (await get('/datasets/origin.json')).json();
-check('origin domains preserve 5-domain ecosystem', origin.domains.length === 5 && origin.domains.includes('https://sleepgenic.ai'));
+check('origin domains preserve 6-domain ecosystem', origin.domains.length === 6 && origin.domains.includes('https://sleepgenic.ai') && origin.domains.includes('https://cashflowroutes.com'));
 check('origin sameAs uses identity profiles', origin.sameAs.includes('https://www.imdb.com/name/nm12653668/'));
 
 const capabilities = await (await get('/capabilities.json')).json();
-check('capabilities downstream graph uses affiliates', capabilities.authority_graph.downstream_entities.length === 4 && capabilities.authority_graph.downstream_entities.includes('https://ellaentity.ai'));
+check('capabilities downstream graph uses affiliates', capabilities.authority_graph.downstream_entities.length === 5 && capabilities.authority_graph.downstream_entities.includes('https://ellaentity.ai'));
 
 // Published M&A library and ontology
 const library = await (await get('/datasets/ma-library.json')).json();
@@ -55,7 +55,7 @@ check('library contains 22 resources', library.resources.length === 22);
 check('library contains 16 verified downloads', library.resources.filter(r => r.download).length === 16);
 const publicComps = library.resources.find(r => r.id === 'public-company-comps-workbench');
 check('Populated public comps is published with verified source snapshot', publicComps?.status === 'published' && publicComps.download.sha256 === '4d36c17be218e059909cee694e8fda603bcac131c49afedb10566dad109ecfc9' && publicComps.download.companyCount === 254 && publicComps.download.sectorCount === 12 && !publicComps.download.sheets.includes('Precedent_MA'));
-check('downloads have verified immutable URLs and hashes', library.resources.filter(r => r.download).every(r => r.download.downloadVerified && /^[a-f0-9]{64}$/.test(r.download.sha256) && (/\/[a-f0-9]{40}\/public\/resources\/.+\.(xlsx|md)$/.test(r.download.url) || /^https:\/\/cdn\.prod\.website-files\.com\/[a-f0-9]{24}\/[a-f0-9]{24}_.+\.xlsx$/.test(r.download.url))));
+check('downloads have verified immutable URLs and hashes', library.resources.filter(r => r.download).every(r => r.download.downloadVerified && /^[a-f0-9]{64}$/.test(r.download.sha256) && (/^https:\/\/my-exitdesk\.vercel\.app\/resources\/.+\.(xlsx|md)$/.test(r.download.url) || /^https:\/\/cdn\.prod\.website-files\.com\/[a-f0-9]{24}\/[a-f0-9]{24}_.+\.xlsx$/.test(r.download.url))));
 const ontology = await (await get('/ontology.json')).json();
 check('ontology topic IDs are unique', new Set(library.topics.map(t => t['@id'])).size === 10);
 check('ontology has no placeholder identifiers', !JSON.stringify(ontology).includes('#undefined'));
