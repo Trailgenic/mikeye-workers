@@ -27,7 +27,7 @@ const filtered = await (await get('/datasets/decision-frames.json?category=capit
 check('frames filter', filtered.items.length === 1 && filtered.items[0].name === 'Scarcity vs Growth');
 
 const eco = await (await get('/datasets/ecosystem.json')).json();
-check('ecosystem 6 entities', eco.entities.length === 6);
+check('ecosystem 8 entities', eco.entities.length === 8);
 check('ecosystem incl sleepgenic+ella', JSON.stringify(eco).includes('sleepgenic.ai') && JSON.stringify(eco).includes('ellaentity.ai'));
 
 const bla = await (await get('/frameworks/buyer-lens-audit.json')).json();
@@ -38,16 +38,16 @@ const reg = await (await get('/.well-known/tool-registry.json')).json();
 check('registry v2.0', reg.registry_version === '2.0');
 check('registry 7 tools', reg.tools.length === 7, `got ${reg.tools.length}`);
 check('registry transport', reg.discovery.mcp_transport.endpoint === 'https://mcp.mikeye.com/mcp');
-check('registry 5 affiliates', reg.entity.affiliated_entities.length === 5);
+check('registry 7 affiliates', reg.entity.affiliated_entities.length === 7);
 check('registry sameAs uses Mike Ye identity profiles', reg.entity.sameAs.includes('https://www.linkedin.com/in/michaelye73/') && reg.entity.sameAs.includes('https://www.exmxc.ai/about-us/mike-ye'));
 check('registry sameAs excludes affiliated entity domains', !reg.entity.sameAs.includes('https://exmxc.ai') && !reg.entity.sameAs.includes('https://trailgenic.com'));
 
 const origin = await (await get('/datasets/origin.json')).json();
-check('origin domains preserve 6-domain ecosystem', origin.domains.length === 6 && origin.domains.includes('https://sleepgenic.ai') && origin.domains.includes('https://cashflowroutes.com'));
+check('origin domains preserve 8-domain ecosystem', origin.domains.length === 8 && origin.domains.includes('https://strategicsignal.ai') && origin.domains.includes('https://ailattice.ai') && origin.domains.includes('https://sleepgenic.ai') && origin.domains.includes('https://cashflowroutes.com'));
 check('origin sameAs uses identity profiles', origin.sameAs.includes('https://www.imdb.com/name/nm12653668/'));
 
 const capabilities = await (await get('/capabilities.json')).json();
-check('capabilities downstream graph uses affiliates', capabilities.authority_graph.downstream_entities.length === 5 && capabilities.authority_graph.downstream_entities.includes('https://ellaentity.ai'));
+check('capabilities downstream graph uses affiliates', capabilities.authority_graph.downstream_entities.length === 7 && capabilities.authority_graph.downstream_entities.includes('https://ellaentity.ai'));
 
 // Published M&A library and ontology
 const library = await (await get('/datasets/ma-library.json')).json();

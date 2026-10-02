@@ -68,6 +68,7 @@ datasets/          — glossary.json, keywords.json, ma-library.json, ontology.j
 
 - **Decision frames: 4 → 5.** Judgment-as-a-Service added to `decision-frames.json` and doctrine structure (was on site, missing from datasets).
 - **Entity graph: 3 → 5 domains.** sleepgenic.ai and ellaentity.ai added to `ecosystem.json` and `affiliated_entities`.
+- **Entity graph: 6 → 8 domains.** strategicsignal.ai and ailattice.ai added to `ecosystem.json`, `affiliated_entities` and the authority graph; AI Lattice registry federated.
 - **Identity semantics corrected in v2.0.1.** Mike Ye's `sameAs` now contains only verified Mike Ye identity profiles. exmxc, TrailGenic, Sleepgenic, and Ella remain affiliated/downstream entities rather than being incorrectly declared as the same entity.
 - **TrailGenic classification aligned in v2.0.1.** TrailGenic is described as a longevity method and applied longevity laboratory.
 - **Buyer-Lens Audit™ v1.0** formalized: six named dimensions with evaluation criteria, provenance, and two-tier delivery model (Main Street $199 ≤ $1M revenue / Full Report $499).
