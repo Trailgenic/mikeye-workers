@@ -51,15 +51,17 @@ check('capabilities downstream graph uses affiliates', capabilities.authority_gr
 
 // Published M&A library and ontology
 const library = await (await get('/datasets/ma-library.json')).json();
-check('library contains 22 resources', library.resources.length === 22);
-check('library contains 16 verified downloads', library.resources.filter(r => r.download).length === 16);
+check('library contains 23 resources', library.resources.length === 23);
+check('library contains 17 verified downloads', library.resources.filter(r => r.download).length === 17);
 const publicComps = library.resources.find(r => r.id === 'public-company-comps-workbench');
 check('Populated public comps is published with verified source snapshot', publicComps?.status === 'published' && publicComps.download.sha256 === '4d36c17be218e059909cee694e8fda603bcac131c49afedb10566dad109ecfc9' && publicComps.download.companyCount === 254 && publicComps.download.sectorCount === 12 && !publicComps.download.sheets.includes('Precedent_MA'));
-check('downloads have verified immutable URLs and hashes', library.resources.filter(r => r.download).every(r => r.download.downloadVerified && /^[a-f0-9]{64}$/.test(r.download.sha256) && (/^https:\/\/my-exitdesk\.vercel\.app\/resources\/.+\.(xlsx|docx|md)$/.test(r.download.url) || /^https:\/\/cdn\.prod\.website-files\.com\/[a-f0-9]{24}\/[a-f0-9]{24}_.+\.xlsx$/.test(r.download.url))));
+check('downloads have verified immutable URLs and hashes', library.resources.filter(r => r.download).every(r => r.download.downloadVerified && /^[a-f0-9]{64}$/.test(r.download.sha256) && (/^https:\/\/my-exitdesk\.vercel\.app\/resources\/.+\.(xlsx|docx|md)$/.test(r.download.url) || /^https:\/\/raw\.githubusercontent\.com\/Trailgenic\/my-exitdesk\/[a-f0-9]{40}\/public\/resources\/[^/]+\.xlsx$/.test(r.download.url) || /^https:\/\/cdn\.prod\.website-files\.com\/[a-f0-9]{24}\/[a-f0-9]{24}_.+\.xlsx$/.test(r.download.url))));
 const ontology = await (await get('/ontology.json')).json();
 check('ontology topic IDs are unique', new Set(library.topics.map(t => t['@id'])).size === 10);
 check('ontology has no placeholder identifiers', !JSON.stringify(ontology).includes('#undefined'));
-check('library keeps five company valuation models', library.resources.filter(r => r.type === 'Model').length === 5);
+check('library includes six company valuation models', library.resources.filter(r => r.type === 'Model').length === 6);
+const anthropic = library.resources.find(r => r.id === 'anthropic-hybrid-valuation-model');
+check('Anthropic publication copy has verified hash and version', anthropic?.version === '1.3.1' && anthropic.download.bytes === 231890 && anthropic.download.sha256 === '03ad3298b60a874b2ccff5cb95f917620d3b4cf645535c7916691ac05bbd030e' && anthropic.download.sheets.length === 19);
 check('library includes the three comprehensive checklists', ['deal-workflow','workflow-diligence','integration-continuity'].every(id => library.resources.some(r => r.id === id && r.download)));
 check('synergy reference is classified as a published tool', library.resources.some(r => r.id === 'synergy-value-bridge' && r.type === 'Tool' && r.topic === 'synergies' && r.status === 'published'));
 const synergy = library.resources.find(r => r.id === 'synergy-value-bridge');
