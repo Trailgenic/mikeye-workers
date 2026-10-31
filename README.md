@@ -1,3 +1,11 @@
+## October 2026 tools review sync (v2.9.0)
+
+The inventory now matches the October 2026 tools review: 24 resources and 18 free downloads, with the three checklists at v1.1, the four deal tools at v1.0.1, the five company models at v1.2.1 and the Public Company Comps Workbench at v1.2 (template only, no third-party data). `/llms.txt` matches the root mikeye.com copy.
+
+New tool `my.library.findTool` (REST: `/library/find.json?need=`) takes a plain-language need, such as "due diligence checklist" or "structure an earnout", and returns the matching free tool with its guide and direct download.
+
+Validation: `node smoke.mjs` — 98 checks pass.
+
 ## September 2026 catalogue alignment
 
 The current release includes 22 resources, ten topics and 16 verified downloads. Catalogue identities, reciprocal relationships and file metadata are generated from the shared my-exitdesk/site-foundation/catalogue source. Free diagnostic metadata describes five scores mapped to six paid report lenses; revenue routing is under $1M versus $1M or more. Valuation-uplift marketing claims are unchanged. Further Exit Score page schema work is deferred.
