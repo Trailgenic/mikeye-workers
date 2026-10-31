@@ -1,4 +1,5 @@
 import { libraryGuide } from "./lib/library-guide.js";
+import { findTool } from "./lib/find-tool.js";
 import { emptyResponse, jsonResponse, textResponse } from "./lib/http.js";
 import {
   BUILD,
@@ -131,9 +132,10 @@ function openApiDocument() {
       "/ontology.json": { get: { summary: "Mike Ye M&A ontology", responses: { 200: json200 } } },
       "/datasets": { get: { summary: "Dataset index", responses: { 200: json200 } } },
       "/datasets/strategy.json": { get: { summary: "Strategy interfaces dataset", responses: { 200: json200 } } },
-      "/datasets/ecosystem.json": { get: { summary: "Five-entity ecosystem dataset", responses: { 200: json200 } } },
+      "/datasets/ecosystem.json": { get: { summary: "Eight-node ecosystem dataset", responses: { 200: json200 } } },
       "/datasets/glossary.json": { get: { summary: "Exit Desk Glossary — 54-entry M&A vocabulary", responses: { 200: json200 } } },
       "/glossary/lookup.json": { get: { summary: "Look Up M&A Glossary Term", responses: { 200: json200 } } },
+      "/library/find.json": { get: { summary: "Find the free M&A tool, checklist or model for a need (?need=)", responses: { 200: json200 } } },
       "/datasets/keywords.json": { get: { summary: "Keyword strategy and demand map", responses: { 200: json200 } } },
       "/mcp": { post: { summary: "MCP JSON-RPC 2.0 Streamable HTTP transport", responses: { 200: json200 } } }
     }
@@ -300,6 +302,11 @@ export default {
       return jsonResponse(glossaryLookup({ term, category }));
     }
     if (url.pathname === "/datasets/keywords.json") return jsonResponse(getDataset("keywords"));
+    if (url.pathname === "/library/find.json") {
+      const need = url.searchParams.get("need") || undefined;
+      const limit = url.searchParams.get("limit") || undefined;
+      return jsonResponse(findTool({ need, limit }));
+    }
 
     // FRAMEWORKS / EXIT
     if (url.pathname === "/frameworks/buyer-lens-audit.json") return jsonResponse(blaFramework());

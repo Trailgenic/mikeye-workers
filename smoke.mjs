@@ -36,7 +36,7 @@ check('BLA tiers 199/499', bla.delivery.paid_tiers[0].price_usd === 199 && bla.d
 
 const reg = await (await get('/.well-known/tool-registry.json')).json();
 check('registry v2.0', reg.registry_version === '2.0');
-check('registry 7 tools', reg.tools.length === 7, `got ${reg.tools.length}`);
+check('registry 8 tools', reg.tools.length === 8, `got ${reg.tools.length}`);
 check('registry transport', reg.discovery.mcp_transport.endpoint === 'https://mcp.mikeye.com/mcp');
 check('registry 7 affiliates', reg.entity.affiliated_entities.length === 7);
 check('registry sameAs uses Mike Ye identity profiles', reg.entity.sameAs.includes('https://www.linkedin.com/in/michaelye73/') && reg.entity.sameAs.includes('https://www.exmxc.ai/about-us/mike-ye'));
@@ -54,7 +54,7 @@ const library = await (await get('/datasets/ma-library.json')).json();
 check('library contains 24 resources', library.resources.length === 24);
 check('library contains 18 verified downloads', library.resources.filter(r => r.download).length === 18);
 const publicComps = library.resources.find(r => r.id === 'public-company-comps-workbench');
-check('Populated public comps is published with verified source snapshot', publicComps?.status === 'published' && publicComps.download.sha256 === '4d36c17be218e059909cee694e8fda603bcac131c49afedb10566dad109ecfc9' && publicComps.download.companyCount === 254 && publicComps.download.sectorCount === 12 && !publicComps.download.sheets.includes('Precedent_MA'));
+check('Public comps is the v1.2 template with no third-party data', publicComps?.status === 'published' && publicComps.download.version === '1.2' && publicComps.download.sha256 === '4d42f3b5e89bc4eebbfa891cc3f831795e20e19f5c9bb64ad772374d6e557759' && publicComps.download.companyCount === undefined && !JSON.stringify(library).includes('Capital IQ'));
 check('downloads have verified immutable URLs and hashes', library.resources.filter(r => r.download).every(r => r.download.downloadVerified && /^[a-f0-9]{64}$/.test(r.download.sha256) && (/^https:\/\/my-exitdesk\.vercel\.app\/resources\/.+\.(xlsx|docx|md)$/.test(r.download.url) || /^https:\/\/raw\.githubusercontent\.com\/Trailgenic\/my-exitdesk\/[a-f0-9]{40}\/public\/resources\/[^/]+\.xlsx$/.test(r.download.url) || /^https:\/\/cdn\.prod\.website-files\.com\/[a-f0-9]{24}\/[a-f0-9]{24}_.+\.xlsx$/.test(r.download.url))));
 const ontology = await (await get('/ontology.json')).json();
 check('ontology topic IDs are unique', new Set(library.topics.map(t => t['@id'])).size === 10);
@@ -65,7 +65,7 @@ check('Anthropic publication copy has verified hash and version', anthropic?.ver
 check('library includes the three comprehensive checklists', ['deal-workflow','workflow-diligence','integration-continuity'].every(id => library.resources.some(r => r.id === id && r.download)));
 check('synergy reference is classified as a published tool', library.resources.some(r => r.id === 'synergy-value-bridge' && r.type === 'Tool' && r.topic === 'synergies' && r.status === 'published'));
 const synergy = library.resources.find(r => r.id === 'synergy-value-bridge');
-check('synergy workbook metadata is complete', synergy.download.bytes === 135876 && synergy.download.sha256 === 'f42cd99478f77a8f0664383dd81476dac4218cd5d575e1169c2341353ede48f1' && synergy.download.sheets.length === 6);
+check('synergy workbook metadata is complete', synergy.download.version === '1.0.1' && synergy.download.bytes === 135392 && synergy.download.sha256 === 'a6a0906425c4736ef5c143f1d825cf1b5ddb044c0d5ae46c5468e3745d2080ab' && synergy.download.sheets.length === 6);
 check('synergy relates to working checklists and LOI economics', synergy.relatedResources.length > 0 && synergy.relatedResources.every(id => library.resources.some(r => r.id === id && r.relatedResources.includes(synergy.id))));
 const stages = ontology['@graph'].find(n => n['@id'] === 'https://www.mikeye.com/m-and-a#transaction-path');
 check('transaction path has seven ordered stages', stages?.['@type'] === 'ItemList' && stages.itemListOrder === 'https://schema.org/ItemListOrderAscending' && stages.numberOfItems === 7 && stages.itemListElement.every((s, i) => s.position === i + 1));
@@ -116,7 +116,7 @@ const ping = await (await rpc({ jsonrpc: '2.0', id: 2, method: 'ping' })).json()
 check('ping', !!ping.result);
 
 const list = await (await rpc({ jsonrpc: '2.0', id: 3, method: 'tools/list' })).json();
-check('tools/list 7', list.result?.tools?.length === 7, `got ${list.result?.tools?.length}`);
+check('tools/list 8', list.result?.tools?.length === 8, `got ${list.result?.tools?.length}`);
 check('tools have inputSchema', list.result.tools.every(t => t.inputSchema?.type === 'object'));
 
 for (const [name, args] of [['my.origin.getIdentity', {}], ['my.strategy.getDoctrine', {}], ['my.frames.get', { category: 'timing' }], ['my.exit.getFramework', {}], ['my.exit.runDiagnostic', {}], ['my.dataset.get', { name: 'glossary' }]]) {
@@ -158,6 +158,17 @@ check('dataset.get bogus name returns error payload', ds.result.structuredConten
 const diagnostic = await (await get('/exit/diagnostic.json')).json();
 check('Diagnostic maps five scores to six report lenses', diagnostic.dimension_model.total_dimensions === 5 && diagnostic.dimension_model.total_report_dimensions === 6);
 check('Revenue boundaries agree', diagnostic.tier_routing.tiers[0].qualifies.includes('under $1M') && diagnostic.tier_routing.tiers[1].qualifies.includes('$1M or more'));
+
+
+// Find-the-right-tool lookup
+const ftDd = await (await rpc({jsonrpc:'2.0',id:40,method:'tools/call',params:{name:'my.library.findTool',arguments:{need:'I need a due diligence checklist'}}})).json();
+check('findTool: diligence need returns the diligence checklist first', ftDd.result?.structuredContent?.results?.[0]?.id === 'workflow-diligence' && /\.xlsx$/.test(ftDd.result.structuredContent.results[0].download.url));
+const ftLoi = await (await get('/library/find.json?need=how%20should%20we%20structure%20an%20earnout')).json();
+check('findTool REST: earnout need returns the LOI allocator', ftLoi.results?.[0]?.id === 'loi-economics-risk-allocator');
+const ftList = await (await get('/library/find.json')).json();
+check('findTool with no need lists common needs', ftList.needs?.length >= 12);
+const ftComps = await (await get('/library/find.json?need=comparable%20company%20analysis%20template')).json();
+check('findTool: comps need returns the comps workbench', ftComps.results?.[0]?.id === 'public-company-comps-workbench');
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);
