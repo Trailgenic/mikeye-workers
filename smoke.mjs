@@ -61,7 +61,7 @@ check('ontology topic IDs are unique', new Set(library.topics.map(t => t['@id'])
 check('ontology has no placeholder identifiers', !JSON.stringify(ontology).includes('#undefined'));
 check('library includes seven valuation and merger scenario models', library.resources.filter(r => r.type === 'Model').length === 7);
 const anthropic = library.resources.find(r => r.id === 'anthropic-hybrid-valuation-model');
-check('Anthropic publication copy has verified hash and version', anthropic?.version === '1.3.1' && anthropic.download.bytes === 231301 && anthropic.download.sha256 === '4291e8f5a866a9f2579e16ffbb359ad09d8a814ce6d5ecd044789e7bf0eb7f0e' && anthropic.download.sheets.length === 19);
+check('Anthropic publication copy has verified hash and version', anthropic?.version === '1.3.3' && anthropic.download.bytes === 311921 && anthropic.download.sha256 === '62eff02ba0fc41b5ace0416c31ad177a644d24ee7e240770d838c2f7b1354d8d' && anthropic.download.sheets.length === 24);
 check('library includes the three comprehensive checklists', ['deal-workflow','workflow-diligence','integration-continuity'].every(id => library.resources.some(r => r.id === id && r.download)));
 check('synergy reference is classified as a published tool', library.resources.some(r => r.id === 'synergy-value-bridge' && r.type === 'Tool' && r.topic === 'synergies' && r.status === 'published'));
 const synergy = library.resources.find(r => r.id === 'synergy-value-bridge');
